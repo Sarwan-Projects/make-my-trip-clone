@@ -62,10 +62,10 @@ const SignupDialog = ({trigger}:any) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">
+          <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             {isSignup ? "Create Account" : "Welcome Back"}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-gray-600 dark:text-gray-400">
             {isSignup
               ? "Join us to start booking your travels."
               : "Enter your credentials to access your account."}
@@ -75,7 +75,7 @@ const SignupDialog = ({trigger}:any) => {
           {isSignup && (
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="firstName" className="text-gray-800 dark:text-gray-200">First Name</Label>
                 <Input
                   id="firstName"
                   value={firstName}
@@ -84,7 +84,7 @@ const SignupDialog = ({trigger}:any) => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="lastName" className="text-gray-800 dark:text-gray-200">Last Name</Label>
                 <Input
                   id="lastName"
                   value={lastName}
@@ -95,7 +95,7 @@ const SignupDialog = ({trigger}:any) => {
             </div>
           )}
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-gray-800 dark:text-gray-200">Email</Label>
             <Input
               id="email"
               type="email"
@@ -105,7 +105,7 @@ const SignupDialog = ({trigger}:any) => {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-gray-800 dark:text-gray-200">Password</Label>
             <Input
               id="password"
               type="password"
@@ -116,7 +116,7 @@ const SignupDialog = ({trigger}:any) => {
           </div>
           {isSignup && (
             <div className="space-y-2">
-              <Label htmlFor="phoneNumber">Phone Number</Label>
+              <Label htmlFor="phoneNumber" className="text-gray-800 dark:text-gray-200">Phone Number</Label>
               <Input
                 id="phoneNumber"
                 type="tel"
@@ -137,13 +137,13 @@ const SignupDialog = ({trigger}:any) => {
             {isSignup ? "Sign Up" : "Login"}
           </Button>
         </form>
-        <div className="text-center text-sm">
+        <div className="text-center text-sm text-gray-800 dark:text-gray-200">
           {isSignup ? (
             <>
               Already have an account?{" "}
               <Button
                 variant="link"
-                className="p-0 text-blue-600"
+                className="p-0 text-blue-600 dark:text-blue-400"
                 onClick={() => setIsSignup(false)}
               >
                 Login
@@ -154,7 +154,7 @@ const SignupDialog = ({trigger}:any) => {
               Don't have an account?{" "}
               <Button
                 variant="link"
-                className="p-0 text-blue-600"
+                className="p-0 text-blue-600 dark:text-blue-400"
                 onClick={() => setIsSignup(true)}
               >
                 Sign Up
