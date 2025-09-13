@@ -8,13 +8,20 @@ import { useEffect } from "react";
 import Footer from "@/components/Fotter";
 
 const Myapp = ({Component, pageProps} : AppProps) => {
-  useEffect(()=>{
-    const storedUser = localStorage.getItem("user")
-    if(storedUser)
-    {
-      store.dispatch(setUser(JSON.parse(storedUser)))
+  useEffect(() => {
+  const storedUser = localStorage.getItem("user");
+
+  if (storedUser && storedUser !== "undefined") {
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      store.dispatch(setUser(parsedUser));
+    } catch (error) {
+      console.error("Error parsing user from localStorage:", error);
+      localStorage.removeItem("user"); // Clean up invalid data
     }
-  },[]);
+  }
+}, []);
+
   return(
     <div className="min-h-screen">
       <Navbar/>

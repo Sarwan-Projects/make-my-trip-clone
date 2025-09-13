@@ -1,12 +1,15 @@
 import {configureStore, createSlice} from "@reduxjs/toolkit"
 
-const saveusertolocalstorage = (user)=>
-{
-    if(typeof window !== "undefined" && localStorage)
-    {
-        localStorage.setItem("user",JSON.stringify(user));
+const saveusertolocalstorage = (user) => {
+  if (typeof window !== "undefined" && localStorage) {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user"); // clean invalid
     }
+  }
 }
+
 
 const initialState = {
     user:null

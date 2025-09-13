@@ -31,7 +31,7 @@ const SignupDialog = ({trigger}:any) => {
           lastName,
           email,
           password,
-          phoneNumber,
+          phoneNumber
         );
         dispatch(setUser(signin));
       } catch (error) {

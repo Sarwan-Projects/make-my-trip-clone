@@ -27,7 +27,7 @@ public class UserController
     }
 
     @GetMapping("/email")
-    public ResponseEntity<Users> getuserbyemail(@PathVariable String email)
+    public ResponseEntity<Users> getuserbyemail(@RequestParam String email)
     {
         Users users = userService.getUserByEmail(email);
         if(users != null)
