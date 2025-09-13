@@ -1,5 +1,6 @@
 package com.makemytrip.makemytrip.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Flight
 {
     @Id
+    @JsonProperty("_id")
     private String _id;
     private String flightName;
     private String from;
