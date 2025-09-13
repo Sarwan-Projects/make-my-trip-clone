@@ -1,5 +1,4 @@
 package com.makemytrip.makemytrip.models;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 @Document(collection = "users")
 public class Users {
     @Id
-    @JsonProperty("_id")
     private String _id;
     private String firstName;
     private String lastName;
