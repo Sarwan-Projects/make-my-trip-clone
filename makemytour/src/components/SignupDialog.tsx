@@ -20,7 +20,7 @@ const SignupDialog = ({trigger}:any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [open, setopem] = useState(false);
+  const [open, setopen] = useState(false);
   const dispatch = useDispatch();
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ const SignupDialog = ({trigger}:any) => {
       try {
         const data = await login(email, password);
         dispatch(setUser(data));
-        setopem(false);
+        setopen(false);
         clearform();
       } catch (error) {
         console.log(error);
@@ -56,7 +56,7 @@ const SignupDialog = ({trigger}:any) => {
     setPhoneNumber("");
   };
   return (
-    <Dialog open={open} onOpenChange={setopem}>
+    <Dialog open={open} onOpenChange={setopen}>
       <DialogTrigger asChild>
         {trigger}
       </DialogTrigger>

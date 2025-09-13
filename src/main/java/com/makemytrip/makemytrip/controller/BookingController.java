@@ -15,13 +15,13 @@ public class BookingController
     @Autowired
     private BookingService bookingService;
 
-    @PostMapping("/flight")
+    @PostMapping("/hotel")
     public Booking bookHotel(@RequestParam String userId,@RequestParam String hotelId,@RequestParam int rooms,@RequestParam double price)
     {
        return bookingService.bookHotel(userId, hotelId, rooms, price);
     }
 
-    @PostMapping("/hotel")
+    @PostMapping("/flight")
     public Booking bookFlight(@RequestParam String userId,@RequestParam String flightId,@RequestParam int seats,@RequestParam double price)
     {
         return bookingService.bookFlight(userId, flightId, seats, price);

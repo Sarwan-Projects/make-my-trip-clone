@@ -45,7 +45,7 @@ const BookHotelPage = () => {
   const [hotels, sethotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState(true);
   const user = useSelector((state: any) => state.user.user);
-  const [open, setopem] = useState(false);
+  const [open, setopen] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchhotels = async () => {
@@ -119,7 +119,7 @@ const BookHotelPage = () => {
     e.preventDefault();
     try {
       const data = await handlehotelbooking(
-        user?.id,
+        user?._id,
         hotel?._id,
         quantity,
         grandTotal
@@ -129,7 +129,7 @@ const BookHotelPage = () => {
         bookings: [...user.bookings, data],
       };
       dispatch(setUser(updateuser));
-      setopem(false);
+      setopen(false);
       setQuantity(1);
       router.push("/profile");
     } catch (error) {
@@ -402,7 +402,7 @@ const BookHotelPage = () => {
                   </span>
                 </div>
               </div>
-              <Dialog open={open} onOpenChange={setopem}>
+              <Dialog open={open} onOpenChange={setopen}>
                 <DialogTrigger asChild>
                   <button className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors mb-3">
                     BOOK THIS NOW
