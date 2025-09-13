@@ -284,7 +284,7 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {searchresults.map((result) => (
                   <div
-                    key={result.id}
+                    key={result._id}
                     className="bg-white rounded-lg shadow p-4 border border-gray-200"
                   >
                     {bookingtype === "flights" ? (
@@ -306,7 +306,7 @@ export default function Home() {
                         </p>
                         <Button
                           className="w-full mt-4"
-                          onClick={() => handlebooknow(result.id)}
+                          onClick={() => handlebooknow(result._id)}
                         >
                           Book Now
                         </Button>
@@ -322,7 +322,7 @@ export default function Home() {
                         </p>
                         <Button
                           className="w-full mt-4"
-                          onClick={() => handlebooknow(result.id)}
+                          onClick={() => handlebooknow(result._id)}
                         >
                           Book Now
                         </Button>

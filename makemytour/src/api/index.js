@@ -102,6 +102,7 @@ export const editprofile = async (
   phoneNumber
 ) => {
   try {
+    console.log(firstName, lastName, email, password, phoneNumber)
     const res = await axios.post(`${BACKEND_URL}/user/edit?id=${id}`, {
       firstName,
       lastName,
@@ -109,6 +110,7 @@ export const editprofile = async (
       phoneNumber,
     });
     const data = res.data;
+    console.log(data, res)
     return data;
   } catch (error) {}
 };

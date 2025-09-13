@@ -17,7 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import { gethotel, handlehotelbooking } from "@/api";
 interface Hotel {
-  id: string; // Unique identifier for the hotel
+  _id: string; // Unique identifier for the hotel
   hotelName: string; // Name of the hotel
   location: string; // Location of the hotel
   pricePerNight: number; // Price per night
@@ -51,7 +51,7 @@ const BookHotelPage = () => {
     const fetchhotels = async () => {
       try {
         const data = await gethotel();
-        const filteredData = data.filter((hotel: any) => hotel.id === id);
+        const filteredData = data.filter((hotel: any) => hotel._id === id);
         sethotels(filteredData);
       } catch (error) {
         console.error("Error fetching flights:", error);
@@ -120,7 +120,7 @@ const BookHotelPage = () => {
     try {
       const data = await handlehotelbooking(
         user?.id,
-        hotel?.id,
+        hotel?._id,
         quantity,
         grandTotal
       );

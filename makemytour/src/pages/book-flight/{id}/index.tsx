@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { getflight, handleflightbooking } from "@/api";
 import { useDispatch, useSelector } from "react-redux";
 interface Flight {
-  id: string; // Unique identifier for the flight
+  _id: string; // Unique identifier for the flight
   flightName: string; // Name of the flight
   from: string; // Departure location
   to: string; // Arrival location
@@ -54,7 +54,7 @@ const BookFlightPage = () => {
     const fetchFlights = async () => {
       try {
         const data = await getflight();
-        const filteredData = data.filter((flight: any) => flight.id === id);
+        const filteredData = data.filter((flight: any) => flight._id === id);
         setFlights(filteredData);
         console.log(filteredData);
       } catch (error) {
@@ -170,7 +170,7 @@ const BookFlightPage = () => {
     try {
       const data = await handleflightbooking(
         user?.id,
-        flight?.id,
+        flight?._id,
         quantity,
         grandTotal
       );

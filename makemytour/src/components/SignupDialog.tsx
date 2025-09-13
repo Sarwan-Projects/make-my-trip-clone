@@ -30,8 +30,8 @@ const SignupDialog = ({trigger}:any) => {
           firstName,
           lastName,
           email,
+          password,
           phoneNumber,
-          password
         );
         dispatch(setUser(signin));
       } catch (error) {
@@ -80,6 +80,7 @@ const SignupDialog = ({trigger}:any) => {
                   id="firstName"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
+                  className="bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
                   required
                 />
               </div>
@@ -89,6 +90,7 @@ const SignupDialog = ({trigger}:any) => {
                   id="lastName"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
+                  className="bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
                   required
                 />
               </div>
@@ -101,6 +103,7 @@ const SignupDialog = ({trigger}:any) => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               required
             />
           </div>
@@ -111,6 +114,7 @@ const SignupDialog = ({trigger}:any) => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               required
             />
           </div>
@@ -122,6 +126,7 @@ const SignupDialog = ({trigger}:any) => {
                 type="tel"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                className="bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
                 required
               />
             </div>

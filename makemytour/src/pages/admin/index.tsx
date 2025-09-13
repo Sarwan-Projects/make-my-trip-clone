@@ -149,7 +149,7 @@ function UserSearch() {
 }
 
 interface Hotel {
-  id?: string;
+  _id?: string;
   hotelName: string;
   location: string;
   pricePerNight: number;
@@ -191,7 +191,7 @@ function AddEditHotel({ hotel }: { hotel: Hotel | null }) {
     e.preventDefault();
     if (hotel) {
       await edithotel(
-        hotel.id,
+        hotel._id,
         formData.hotelName,
         formData.location,
         formData.pricePerNight,
@@ -281,7 +281,7 @@ function AddEditHotel({ hotel }: { hotel: Hotel | null }) {
 }
 
 interface Flight {
-  id?: string;
+  _id?: string;
   flightName: string;
   from: string;
   to: string;
@@ -329,7 +329,7 @@ function AddEditFlight({ flight }: { flight: Flight | null }) {
     console.log("Submitting flight data:", formData);
     if (flight) {
       await editflight(
-        flight?.id,
+        flight?._id,
         formData.flightName,
         formData.from,
         formData.to,
