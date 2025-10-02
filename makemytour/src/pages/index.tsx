@@ -277,7 +277,7 @@ export default function Home() {
             </Button>
           </div>
           <div className="mt-6">
-            <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+            <h2 className="text-xl font-semibold mb-4 text-gray-900">
               Search Results
             </h2>
             {searchresults.length > 0 ? (
@@ -295,10 +295,10 @@ export default function Home() {
                         <h3 className="font-semibold text-lg">
                           {result.from} to {result.to}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-300">
+                        <p className="text-gray-600">
                           Departure Time: {formatDate(result.departureTime)}
                         </p>
-                        <p className="text-gray-600 dark:text-gray-300">
+                        <p className="text-gray-600">
                           Arrival Time: {formatDate(result.arrivalTime)}
                         </p>
                         <p className="text-lg font-bold mt-2">
@@ -316,7 +316,7 @@ export default function Home() {
                         <h3 className="font-semibold text-lg">
                           {result.hotelName}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-300">City: {result.location}</p>
+                        <p className="text-gray-600">City: {result.location}</p>
                         <p className="text-lg font-bold mt-2">
                           ₹{result.pricePerNight} per night
                         </p>
@@ -332,7 +332,7 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className="text-gray-600">
                 No {bookingtype} available for the selected criteria.
               </p>
             )}
@@ -341,7 +341,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           {/* Offers Section */}
           <section className="my-16">
-            <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-white">Best Offers</h2>
+            <h2 className="text-2xl font-bold mb-8 text-gray-900">Best Offers</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {offers.map((offer, index) => (
                 <OfferCard key={index} {...offer} />
@@ -352,7 +352,7 @@ export default function Home() {
           {/* Collections Section */}
           <section className="my-16">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-2xl font-bold text-gray-900">
                 Handpicked Collections for You
               </h2>
             </div>
@@ -366,7 +366,7 @@ export default function Home() {
           {/* Wonders Section */}
           <section className="my-16">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-2xl font-bold text-gray-900">
                 Unlock Lesser-Known <span></span> Wonders of India
               </h2>
             </div>
@@ -390,7 +390,7 @@ const OfferCard = ({ title, description, imageUrl }: any) => {
       <img src={imageUrl} alt={title} className="w-full h-48 object-cover" />
       <div className="p-4">
         <h3 className="font-semibold text-lg mb-2">{title}</h3>
-        <p className="text-gray-600 dark:text-gray-300 text-sm">{description}</p>
+        <p className="text-gray-600 text-sm">{description}</p>
         <button className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
           Book Now
         </button>
@@ -425,8 +425,8 @@ const DownloadApp = () => {
     <div className="bg-white p-6 rounded-lg shadow-md max-w-7xl mx-auto my-12">
       <div className="flex flex-col md:flex-row items-center justify-between">
         <div className="mb-6 md:mb-0">
-          <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Download App Now!</h3>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
+          <h3 className="text-xl font-bold mb-2 text-gray-900">Download App Now!</h3>
+          <p className="text-gray-600 mb-4">
             Get India's #1 travel super app with best deals on flights
           </p>
           <div className="flex space-x-4">
@@ -444,7 +444,7 @@ const DownloadApp = () => {
         </div>
         <div className="flex items-center space-x-4">
           <QrCode className="w-24 h-24" />
-          <p className="text-sm text-gray-600 dark:text-gray-300">
+          <p className="text-sm text-gray-600">
             Scan QR code to download the app
           </p>
         </div>

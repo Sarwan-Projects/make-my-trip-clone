@@ -58,7 +58,7 @@ export function SearchSelect({ options, placeholder, value, onChange, icon, subt
         </div>
       </div>
       {isOpen && (
-        <div 
+        <div
           className="absolute z-10 w-full mt-1 border border-gray-300 rounded-md shadow-lg"
           style={{
             backgroundColor: '#ffffff',
