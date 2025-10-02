@@ -163,6 +163,39 @@ body {
       color: #d1d5db !important;
     }
     
+    /* Fix MakeMyTour logo/brand text visibility */
+    .text-white {
+      color: #ffffff !important;
+    }
+    
+    /* Fix other common text colors */
+    .text-gray-500 {
+      color: #d1d5db !important;
+    }
+    
+    .text-gray-400 {
+      color: #d1d5db !important;
+    }
+    
+    .text-gray-300 {
+      color: #f3f4f6 !important;
+    }
+    
+    /* Fix all heading text */
+    h1, h2, h3, h4, h5, h6 {
+      color: #f9fafb !important;
+    }
+    
+    /* Fix paragraph and span text */
+    p, span, div {
+      color: #e5e7eb !important;
+    }
+    
+    /* Fix button text */
+    button {
+      color: inherit !important;
+    }
+    
     /* Fix dropdown text visibility */
     [class*="absolute"][class*="z-10"] {
       background-color: #ffffff !important;
