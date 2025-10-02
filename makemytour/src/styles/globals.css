@@ -188,35 +188,49 @@ body {
     .text-white {
       color: #ffffff !important;
     }
+
+    /* Make ALL footer text visible with dark white colors - aggressive selectors */
+    footer,
+    footer *,
+    footer h1,
+    footer h2,
+    footer h3,
+    footer h4,
+    footer h5,
+    footer h6,
+    footer p,
+    footer span,
+    footer div,
+    footer li,
+    footer a,
+    footer label {
+      color: #e5e7eb !important;
+    }
     
-    /* Make footer text white and darker white for better visibility */
+    /* Make footer headings brighter white */
+    footer h1,
+    footer h2,
+    footer h3,
+    footer h4 {
+      color: #f9fafb !important;
+    }
+    
+    /* Make footer links hover brighter */
+    footer a:hover {
+      color: #ffffff !important;
+    }
+    
+    /* Override any gray text classes in footer */
     footer .text-gray-900,
     footer .text-gray-800,
     footer .text-gray-700,
     footer .text-gray-600,
     footer .text-gray-500,
     footer .text-gray-400,
-    footer .text-gray-300 {
-      color: #ffffff !important;
-    }
-    
-    /* Make footer headings white */
-    footer h1, footer h2, footer h3, footer h4, footer h5, footer h6 {
-      color: #ffffff !important;
-    }
-    
-    /* Make footer paragraphs and spans white */
-    footer p, footer span, footer div:not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-green"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-pink"]):not([class*="text-indigo"]) {
-      color: #f3f4f6 !important;
-    }
-    
-    /* Make footer links slightly darker white for contrast */
-    footer a:not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-green"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-pink"]):not([class*="text-indigo"]) {
+    footer .text-gray-300,
+    footer .text-gray-200,
+    footer .text-gray-100 {
       color: #e5e7eb !important;
-    }
-    
-    footer a:hover {
-      color: #ffffff !important;
     }
 
     /* Make headings darker for better visibility - only if they don't have specific colors */
