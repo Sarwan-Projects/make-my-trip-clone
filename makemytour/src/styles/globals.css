@@ -148,4 +148,23 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Force all dropdowns and absolute positioned elements to have white background in dark mode */
+  @media (prefers-color-scheme: dark) {
+    [class*="absolute"][class*="z-10"],
+    [class*="absolute"] [role="button"],
+    [data-radix-scroll-area-viewport] {
+      background-color: #ffffff !important;
+      color: #1f2937 !important;
+    }
+    
+    [class*="absolute"] button {
+      background-color: #ffffff !important;
+      color: #1f2937 !important;
+    }
+    
+    [class*="absolute"] button:hover {
+      background-color: #f3f4f6 !important;
+    }
+  }
 }
