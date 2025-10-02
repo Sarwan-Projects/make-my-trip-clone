@@ -24,9 +24,9 @@ const Navbar = () => {
   return (
     <header className=" backdrop-blur-md py-4 sticky top-0 z-50">
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <div className="flex items-center space-x-2 text-white">
+        <div className="flex items-center space-x-2">
           <Plane className="w-8 h-8 text-red-500" />
-          <span className="text-2xl font-bold text-black">MakeMyTour</span>
+          <span className="text-2xl font-bold text-gray-900 dark:text-white">MakeMyTour</span>
         </div>
         <div className="flex items-center space-x-4">
           {user ? (

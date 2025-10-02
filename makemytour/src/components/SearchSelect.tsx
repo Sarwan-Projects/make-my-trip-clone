@@ -34,7 +34,7 @@ export function SearchSelect({ options, placeholder, value, onChange, icon, subt
         <div className="flex items-center space-x-2">
           {icon}
           <div className="flex-1 min-w-0">
-            <div className="text-sm text-gray-500 truncate">{placeholder}</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 truncate">{placeholder}</div>
             <Input
               type="text"
               value={value || searchTerm}
@@ -45,12 +45,12 @@ export function SearchSelect({ options, placeholder, value, onChange, icon, subt
               className="font-semibold w-full bg-transparent border-none p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
               placeholder={placeholder}
             />
-            <div className="text-xs text-gray-400 truncate">{subtitle}</div>
+            <div className="text-xs text-gray-400 dark:text-gray-500 truncate">{subtitle}</div>
           </div>
         </div>
       </div>
       {isOpen && (
-        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+        <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg">
           <ScrollArea className="h-64">
             {filteredOptions.map((option:any) => (
               <Button
