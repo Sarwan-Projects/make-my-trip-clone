@@ -151,31 +151,20 @@ body {
     @apply bg-background text-foreground;
   }
   
-  /* Force everything to look like light mode regardless of browser preference */
+  /* Fix only specific text visibility issues in dark mode without changing overall design */
   @media (prefers-color-scheme: dark) {
-    /* Force all elements to use light mode colors */
-    * {
-      color: #1f2937 !important;
+    /* Fix search results text visibility */
+    .text-gray-900 {
+      color: #f9fafb !important;
     }
     
-    /* Force all backgrounds to be white */
-    body, main, div, section, article, aside, nav, header, footer {
-      background-color: white !important;
+    /* Fix "No flights available" text visibility */
+    .text-gray-600 {
+      color: #d1d5db !important;
     }
     
-    /* Keep only navbar dark */
-    nav.bg-gray-800, .navbar {
-      background-color: #1f2937 !important;
-    }
-    
-    nav.bg-gray-800 *, .navbar * {
-      color: white !important;
-    }
-    
-    /* Force all dropdowns and absolute positioned elements to have white background */
-    [class*="absolute"][class*="z-10"],
-    [class*="absolute"] [role="button"],
-    [data-radix-scroll-area-viewport] {
+    /* Fix dropdown text visibility */
+    [class*="absolute"][class*="z-10"] {
       background-color: #ffffff !important;
       color: #1f2937 !important;
     }
@@ -187,28 +176,6 @@ body {
     
     [class*="absolute"] button:hover {
       background-color: #f3f4f6 !important;
-    }
-    
-    /* Force all text colors to be dark */
-    h1, h2, h3, h4, h5, h6, p, span, div, label {
-      color: #1f2937 !important;
-    }
-    
-    /* Force specific text colors for different elements */
-    .text-gray-600 {
-      color: #4b5563 !important;
-    }
-    
-    .text-gray-500 {
-      color: #6b7280 !important;
-    }
-    
-    .text-gray-400 {
-      color: #9ca3af !important;
-    }
-    
-    .text-white {
-      color: white !important;
     }
   }
 }
