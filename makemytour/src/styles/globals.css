@@ -148,4 +148,32 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Fix only specific text visibility issues in dark mode without changing overall design */
+  @media (prefers-color-scheme: dark) {
+    /* Fix search results text visibility */
+    .text-gray-900 {
+      color: #f9fafb !important;
+    }
+    
+    /* Fix "No flights available" text visibility */
+    .text-gray-600 {
+      color: #d1d5db !important;
+    }
+    
+    /* Fix dropdown text visibility */
+    [class*="absolute"][class*="z-10"] {
+      background-color: #ffffff !important;
+      color: #1f2937 !important;
+    }
+    
+    [class*="absolute"] button {
+      background-color: #ffffff !important;
+      color: #1f2937 !important;
+    }
+    
+    [class*="absolute"] button:hover {
+      background-color: #f3f4f6 !important;
+    }
+  }
 }
