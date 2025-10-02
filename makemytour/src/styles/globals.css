@@ -206,7 +206,7 @@ body {
     footer label {
       color: #e5e7eb !important;
     }
-    
+
     /* Make footer headings brighter white */
     footer h1,
     footer h2,
@@ -214,12 +214,12 @@ body {
     footer h4 {
       color: #f9fafb !important;
     }
-    
+
     /* Make footer links hover brighter */
     footer a:hover {
       color: #ffffff !important;
     }
-    
+
     /* Override any gray text classes in footer */
     footer .text-gray-900,
     footer .text-gray-800,
