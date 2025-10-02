@@ -21,14 +21,29 @@ public class Users {
     private String phoneNumber;
     private List<Booking> bookings = new ArrayList<>();;
 
+    @Getter
+    @Setter
     public static class Booking{
         private String type;
         private String bookingId;
         private String date;
         private int quantity;
         private double totalPrice;
-
-        // Getters and Setters
+        
+        // Additional fields for enhanced functionality
+        private String itemId; // flight or hotel ID
+        private String travelDate;
+        private double originalPrice;
+        private String status = "confirmed"; // "confirmed", "cancelled", "refunded"
+        private String cancellationReason;
+        private String cancellationDate;
+        private double refundAmount;
+        private String refundStatus; // "pending", "processed", "rejected"
+        private List<String> selectedSeats; // for flights
+        private String selectedRoomType; // for hotels
+        private String selectedRoom; // for hotels
+        
+        // Keep existing getters and setters for backward compatibility
         public String getType() {
             return type;
         }

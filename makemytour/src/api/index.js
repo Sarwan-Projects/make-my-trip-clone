@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const BACKEND_URL = "https://make-my-trip-clone-pb3x.onrender.com"
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "https://make-my-trip-clone-pb3x.onrender.com"
 export const login = async(email, password)=>
 {
     try 

@@ -1,0 +1,1 @@
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://make-my-trip-clone-pb3x.onrender.com";
