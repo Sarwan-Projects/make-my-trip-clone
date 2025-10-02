@@ -192,7 +192,7 @@ export default function Home() {
       }}
     >
       <main className="container mx-auto px-4 py-6">
-        <nav className="bg-white rounded-xl shadow-lg mx-auto max-w-5xl mb-6 p-4 overflow-x-auto">
+        <nav className="bg-white dark:bg-white rounded-xl shadow-lg mx-auto max-w-5xl mb-6 p-4 overflow-x-auto">
           <div className="flex justify-between items-center min-w-max space-x-8">
             <NavItem
               icon={<Plane />}
@@ -216,7 +216,7 @@ export default function Home() {
           </div>
         </nav>
 
-        <div className="bg-white rounded-xl shadow-lg mx-auto max-w-5xl p-6">
+        <div className="bg-white dark:bg-white rounded-xl shadow-lg mx-auto max-w-5xl p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {bookingtype === "flights" && (
               <div className="col-span-1">
@@ -272,7 +272,7 @@ export default function Home() {
               />
             </div>
 
-            <Button className="col-span-1 h-full" onClick={handlesearch}>
+            <Button className="col-span-1 h-full bg-gray-800 text-white hover:bg-gray-700" onClick={handlesearch}>
               SEARCH
             </Button>
           </div>
@@ -473,7 +473,7 @@ function NavItem({ icon, text, active = false, onClick }: any) {
   return (
     <button
       className={`flex flex-col items-center p-2 rounded-lg transition-colors ${
-        active ? "text-blue-500" : "text-gray-600 dark:text-gray-300 hover:text-blue-500"
+        active ? "text-blue-500" : "text-gray-600 hover:text-blue-500"
       }`}
       onClick={onClick}
     >
@@ -492,19 +492,19 @@ function SearchInput({
   type = "text",
 }: any) {
   return (
-    <div className="border rounded-lg p-3 hover:border-blue-500 cursor-pointer h-full">
+    <div className="border rounded-lg p-3 hover:border-blue-500 cursor-pointer h-full bg-white">
       <div className="flex items-center space-x-2">
         {icon}
         <div className="flex-1 min-w-0">
-          <div className="text-sm text-gray-500 dark:text-gray-400 truncate">{placeholder}</div>
+          <div className="text-sm text-gray-500 truncate">{placeholder}</div>
           <input
             type={type}
             value={value}
             onChange={onChange}
-            className="font-semibold w-full bg-transparent outline-none"
+            className="font-semibold w-full bg-transparent outline-none text-gray-900"
             placeholder={placeholder}
           />
-          <div className="text-xs text-gray-400 dark:text-gray-500 truncate">{subtitle}</div>
+          <div className="text-xs text-gray-400 truncate">{subtitle}</div>
         </div>
       </div>
     </div>
