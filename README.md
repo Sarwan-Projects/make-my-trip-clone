@@ -308,6 +308,14 @@ npm install
 npm run dev
 ```
 
+### 🚀 Production Build
+```bash
+# Frontend build and start
+cd makemytour
+npm run build
+npm start
+```
+
 ### 📊 Database
 - **MongoDB Atlas**: Fully configured and connected
 - **Collections**: Users (with embedded bookings), Reviews, Flight Status, etc.
