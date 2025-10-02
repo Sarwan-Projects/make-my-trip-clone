@@ -153,47 +153,54 @@ body {
   
   /* Fix only specific text visibility issues in dark mode without changing overall design */
   @media (prefers-color-scheme: dark) {
-    /* Fix search results text visibility */
+    /* Make gray text much darker and more visible - only target gray colors, not colored text */
     .text-gray-900 {
-      color: #f9fafb !important;
+      color: #111827 !important;
     }
     
-    /* Fix "No flights available" text visibility */
+    .text-gray-800 {
+      color: #1f2937 !important;
+    }
+    
+    .text-gray-700 {
+      color: #374151 !important;
+    }
+    
     .text-gray-600 {
+      color: #4b5563 !important;
+    }
+    
+    .text-gray-500 {
+      color: #6b7280 !important;
+    }
+    
+    .text-gray-400 {
+      color: #9ca3af !important;
+    }
+    
+    .text-gray-300 {
       color: #d1d5db !important;
     }
     
-    /* Fix MakeMyTour logo/brand text visibility */
+    /* Keep white text white for navbar */
     .text-white {
       color: #ffffff !important;
     }
     
-    /* Fix other common text colors */
-    .text-gray-500 {
-      color: #d1d5db !important;
+    /* Make headings darker for better visibility - only if they don't have specific colors */
+    h1:not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-green"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-pink"]):not([class*="text-indigo"]), 
+    h2:not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-green"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-pink"]):not([class*="text-indigo"]), 
+    h3:not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-green"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-pink"]):not([class*="text-indigo"]), 
+    h4:not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-green"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-pink"]):not([class*="text-indigo"]), 
+    h5:not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-green"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-pink"]):not([class*="text-indigo"]), 
+    h6:not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-green"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-pink"]):not([class*="text-indigo"]) {
+      color: #1f2937 !important;
     }
     
-    .text-gray-400 {
-      color: #d1d5db !important;
-    }
-    
-    .text-gray-300 {
-      color: #f3f4f6 !important;
-    }
-    
-    /* Fix all heading text */
-    h1, h2, h3, h4, h5, h6 {
-      color: #f9fafb !important;
-    }
-    
-    /* Fix paragraph and span text */
-    p, span, div {
-      color: #e5e7eb !important;
-    }
-    
-    /* Fix button text */
-    button {
-      color: inherit !important;
+    /* Make paragraph text darker - only if they don't have specific colors */
+    p:not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-green"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-pink"]):not([class*="text-indigo"]):not([class*="text-white"]), 
+    span:not([class*="text-red"]):not([class*="text-blue"]):not([class*="text-green"]):not([class*="text-yellow"]):not([class*="text-purple"]):not([class*="text-pink"]):not([class*="text-indigo"]):not([class*="text-white"]) {
+      color: #374151 !important;
     }
     
     /* Fix dropdown text visibility */
