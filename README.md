@@ -607,18 +607,21 @@ User Action → Frontend → API Call → Backend Service → Database
 - **Test**: View recommendations, provide feedback
 
 ### Complete Test Flow:
+
+#### For Regular Users:
 ```
 1. Register: https://make-my-trip-clone-1-s4of.onrender.com
    - Click "Sign Up"
    - Enter your details
-   - Create account
+   - Create account (role: USER)
 
 2. Login:
    - Enter email and password
    - Click "Login"
+   - See "Dashboard" button in navbar
 
 3. Book a Flight/Hotel:
-   - Search for destination
+   - Search for destination (flights/hotels added by admin)
    - Select from/to and date
    - Click "Book Now"
    - Fill booking details
@@ -639,10 +642,37 @@ User Action → Frontend → API Call → Backend Service → Database
    - View AI recommendations → Personalized suggestions
 ```
 
+#### For Admin Users:
+```
+1. Login with Admin Account:
+   - Email: admin@makemytour.com
+   - Password: (set role to ADMIN in database)
+
+2. Access Admin Panel:
+   - Click "Admin Panel" button in navbar
+   - URL: https://make-my-trip-clone-1-s4of.onrender.com/admin
+
+3. Admin Features:
+   - Add new flights (name, from, to, times, price, seats)
+   - Add new hotels (name, location, price, rooms, amenities)
+   - Edit existing flights/hotels
+   - View all users
+   - Manage bookings
+   - Update availability
+
+4. Admin Capabilities:
+   - Create flight schedules
+   - Set hotel inventory
+   - Update prices
+   - Manage availability
+   - View booking statistics
+```
+
 ### Dynamic Features:
-- ✅ **User Registration** - Create your own account
-- ✅ **User Authentication** - Secure login/logout
-- ✅ **Dynamic Bookings** - Book flights/hotels in real-time
+- ✅ **User Registration** - Create your own account (USER role)
+- ✅ **Admin Panel** - Manage flights/hotels (ADMIN role required)
+- ✅ **User Authentication** - Secure login/logout with role-based access
+- ✅ **Dynamic Bookings** - Book flights/hotels added by admin
 - ✅ **Real-time Dashboard** - See your bookings instantly
 - ✅ **Live Cancellations** - Cancel and get refunds
 - ✅ **User Reviews** - Write and manage reviews
@@ -650,6 +680,12 @@ User Action → Frontend → API Call → Backend Service → Database
 - ✅ **Flight Status** - Real-time flight updates
 - ✅ **Seat/Room Selection** - Interactive selection
 - ✅ **AI Recommendations** - Based on YOUR history
+
+### Role-Based Access:
+- **USER Role**: Can book, cancel, review, track prices
+- **ADMIN Role**: Can add/edit flights, hotels, manage system
+- **Access Control**: Admin panel protected by role check
+- **Navbar**: Shows "Admin Panel" button only for admins
 
 ---
 
