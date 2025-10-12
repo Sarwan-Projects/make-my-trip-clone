@@ -63,7 +63,6 @@ const CancellationDialog: React.FC<CancellationDialogProps> = ({ booking, onCanc
         console.log('API not available, using local calculation');
         setRefundAmount(calculatedRefund);
       }
-      setRefundAmount(response.data.refundAmount);
       setStep(2);
     } catch (error) {
       console.error('Error calculating refund:', error);

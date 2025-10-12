@@ -1,8 +1,9 @@
 package com.makemytrip.makemytrip.controller;
 
-import com.makemytrip.makemytrip.models.Users.Booking;
+import com.makemytrip.makemytrip.models.Booking;
 import com.makemytrip.makemytrip.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -26,8 +27,13 @@ public class BookingController
     }
     
     @GetMapping("/user/{userId}")
-    public List<Booking> getUserBookings(@PathVariable String userId)
+    public ResponseEntity<List<Booking>> getUserBookings(@PathVariable String userId)
     {
-        return bookingService.getUserBookings(userId);
+        try {
+            List<Booking> bookings = bookingService.getUserBookings(userId);
+            return ResponseEntity.ok(bookings);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }

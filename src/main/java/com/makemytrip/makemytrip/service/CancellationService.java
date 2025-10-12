@@ -1,12 +1,13 @@
 package com.makemytrip.makemytrip.service;
 
+import com.makemytrip.makemytrip.models.Booking;
 import com.makemytrip.makemytrip.models.Users;
+import com.makemytrip.makemytrip.repository.BookingRepository;
 import com.makemytrip.makemytrip.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -17,14 +18,18 @@ public class CancellationService {
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private BookingRepository bookingRepository;
+    
     public double calculateRefundAmount(String userId, String bookingId, String reason) {
-        Users.Booking booking = findBookingByUserAndId(userId, bookingId);
-        if (booking == null) {
+        Optional<Booking> bookingOpt = bookingRepository.findById(bookingId);
+        if (bookingOpt.isEmpty()) {
             throw new RuntimeException("Booking not found");
         }
         
+        Booking booking = bookingOpt.get();
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime travelDate = LocalDateTime.parse(booking.getTravelDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        LocalDateTime travelDate = booking.getTravelDate();
         long hoursUntilTravel = ChronoUnit.HOURS.between(now, travelDate);
         
         double refundPercentage = 0.0;
@@ -48,17 +53,13 @@ public class CancellationService {
         return booking.getTotalPrice() * refundPercentage;
     }
     
-    public Users.Booking cancelBooking(String userId, String bookingId, String reason) {
-        Optional<Users> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            throw new RuntimeException("User not found");
-        }
-        
-        Users user = userOpt.get();
-        Users.Booking booking = findBookingByUserAndId(userId, bookingId);
-        if (booking == null) {
+    public Booking cancelBooking(String userId, String bookingId, String reason) {
+        Optional<Booking> bookingOpt = bookingRepository.findById(bookingId);
+        if (bookingOpt.isEmpty()) {
             throw new RuntimeException("Booking not found");
         }
+        
+        Booking booking = bookingOpt.get();
         
         if ("cancelled".equals(booking.getStatus())) {
             throw new RuntimeException("Booking already cancelled");
@@ -68,48 +69,25 @@ public class CancellationService {
         
         booking.setStatus("cancelled");
         booking.setCancellationReason(reason);
-        booking.setCancellationDate(LocalDateTime.now().toString());
+        booking.setCancellationDate(LocalDateTime.now());
         booking.setRefundAmount(refundAmount);
         booking.setRefundStatus(refundAmount > 0 ? "pending" : "not-applicable");
         
-        userRepository.save(user);
-        return booking;
+        return bookingRepository.save(booking);
     }
     
-    public List<Users.Booking> getUserBookings(String userId) {
-        Optional<Users> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            throw new RuntimeException("User not found");
-        }
-        return userOpt.get().getBookings();
+    public List<Booking> getUserBookings(String userId) {
+        return bookingRepository.findByUserId(userId);
     }
     
-    public Users.Booking updateRefundStatus(String userId, String bookingId, String status) {
-        Optional<Users> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            throw new RuntimeException("User not found");
-        }
-        
-        Users user = userOpt.get();
-        Users.Booking booking = findBookingByUserAndId(userId, bookingId);
-        if (booking == null) {
+    public Booking updateRefundStatus(String userId, String bookingId, String status) {
+        Optional<Booking> bookingOpt = bookingRepository.findById(bookingId);
+        if (bookingOpt.isEmpty()) {
             throw new RuntimeException("Booking not found");
         }
         
+        Booking booking = bookingOpt.get();
         booking.setRefundStatus(status);
-        userRepository.save(user);
-        return booking;
-    }
-    
-    private Users.Booking findBookingByUserAndId(String userId, String bookingId) {
-        Optional<Users> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            return null;
-        }
-        
-        return userOpt.get().getBookings().stream()
-            .filter(booking -> bookingId.equals(booking.getBookingId()))
-            .findFirst()
-            .orElse(null);
+        return bookingRepository.save(booking);
     }
 }
