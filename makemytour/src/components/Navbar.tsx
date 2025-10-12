@@ -21,7 +21,7 @@ const Navbar = () => {
   const logout = () => {
     dispatch(clearUser());
   };
-  
+
   // Debug: Log user role
   React.useEffect(() => {
     if (user) {
@@ -41,8 +41,8 @@ const Navbar = () => {
           {user ? (
             <>
               {user.role === "ADMIN" && (
-                <Button 
-                  variant="default" 
+                <Button
+                  variant="default"
                   onClick={() => router.push("/admin")}
                   className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
                 >
