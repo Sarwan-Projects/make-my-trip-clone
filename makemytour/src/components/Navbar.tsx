@@ -21,6 +21,15 @@ const Navbar = () => {
   const logout = () => {
     dispatch(clearUser());
   };
+  
+  // Debug: Log user role
+  React.useEffect(() => {
+    if (user) {
+      console.log("Current user:", user);
+      console.log("User role:", user.role);
+      console.log("Is admin?", user.role === "ADMIN");
+    }
+  }, [user]);
   return (
     <header className=" backdrop-blur-md py-4 sticky top-0 z-50">
       <div className="container mx-auto px-4 flex items-center justify-between">
