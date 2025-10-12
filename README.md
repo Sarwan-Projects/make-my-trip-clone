@@ -129,43 +129,220 @@ A comprehensive travel booking platform with 6 advanced features including cance
 
 ## 🎯 API Endpoints
 
-### Cancellation & Refunds
-- `GET /api/cancellation/bookings/{userId}` - Get user bookings
-- `POST /api/cancellation/calculate-refund` - Calculate refund amount
-- `POST /api/cancellation/cancel` - Cancel booking
-- `PUT /api/cancellation/refund-status` - Update refund status
+### Base URL
+- **Backend API**: https://make-my-trip-clone-pb3x.onrender.com
 
-### Reviews
+### 📋 Booking Endpoints
+
+#### 1. Book a Flight
+```http
+POST /booking/flight
+```
+**Parameters:**
+- `userId` (String) - User ID
+- `flightId` (String) - Flight ID
+- `seats` (int) - Number of seats
+- `price` (double) - Total price
+
+**Response:** Booking object
+
+#### 2. Book a Hotel
+```http
+POST /booking/hotel
+```
+**Parameters:**
+- `userId` (String) - User ID
+- `hotelId` (String) - Hotel ID
+- `rooms` (int) - Number of rooms
+- `price` (double) - Total price
+
+**Response:** Booking object
+
+#### 3. Get User Bookings
+```http
+GET /booking/user/{userId}
+```
+**Path Variable:**
+- `userId` (String) - User ID
+
+**Response:** List of Booking objects
+
+---
+
+### 🚫 Cancellation & Refund Endpoints
+
+#### 1. Get User Bookings (Cancellation)
+```http
+GET /cancellation/bookings/{userId}
+```
+**Response:** List of Booking objects
+
+#### 2. Calculate Refund Amount
+```http
+POST /cancellation/calculate-refund
+```
+**Request Body:**
+```json
+{
+  "userId": "user123",
+  "bookingId": "BK001",
+  "reason": "medical"
+}
+```
+
+**Response:**
+```json
+{
+  "refundAmount": 450.0,
+  "bookingId": "BK001"
+}
+```
+
+**Refund Policy:**
+- **≥48 hours before travel:** 90% refund
+- **24-48 hours before travel:** 50% refund
+- **2-24 hours before travel:** 25% refund
+- **<2 hours before travel:** No refund
+- **Medical/Emergency reasons:** Minimum 80% refund
+
+#### 3. Cancel Booking
+```http
+POST /cancellation/cancel
+```
+**Request Body:**
+```json
+{
+  "userId": "user123",
+  "bookingId": "BK001",
+  "reason": "Change of plans"
+}
+```
+
+**Response:** Cancelled Booking object with refund details
+
+#### 4. Update Refund Status
+```http
+PUT /cancellation/refund-status
+```
+**Request Body:**
+```json
+{
+  "userId": "user123",
+  "bookingId": "BK001",
+  "status": "processed"
+}
+```
+
+---
+
+### ⭐ Reviews
 - `POST /api/reviews` - Create review
 - `GET /api/reviews/{itemId}/{itemType}` - Get reviews
 - `POST /api/reviews/{reviewId}/helpful` - Mark review helpful
 - `POST /api/reviews/{reviewId}/flag` - Flag review
 - `GET /api/reviews/{itemId}/{itemType}/average-rating` - Get average rating
 
-### Flight Status
+### ✈️ Flight Status
 - `GET /api/flight-status/{flightId}` - Get flight status
 - `GET /api/flight-status/by-number/{flightNumber}` - Get status by flight number
 - `POST /api/flight-status/user-flights` - Get multiple flight statuses
 
-### Seat Selection
+### 💺 Seat Selection
 - `GET /api/seat-selection/flight/{flightId}` - Get seat map
 - `POST /api/seat-selection/book-seats` - Book seats
 - `POST /api/seat-selection/calculate-upgrade-price` - Calculate upgrade cost
 
-### Room Selection
+### 🏨 Room Selection
 - `GET /api/room-selection/hotel/{hotelId}` - Get room layout
 - `POST /api/room-selection/book-room` - Book room
 - `GET /api/room-selection/hotel/{hotelId}/available/{roomType}` - Get available rooms
 
-### Pricing
+### 💰 Pricing
 - `POST /api/pricing/calculate` - Calculate dynamic price
 - `GET /api/pricing/history/{itemId}/{itemType}` - Get price history
 - `GET /api/pricing/insights/{itemId}/{itemType}` - Get price insights
 - `POST /api/pricing/freeze` - Freeze price
 
-### Recommendations
+### 🤖 Recommendations
 - `GET /api/recommendations/{userId}` - Get AI recommendations
 - `POST /api/recommendations/{recommendationId}/feedback` - Provide feedback
+
+---
+
+## 📊 Booking Model Structure
+
+```json
+{
+  "bookingId": "BK001",
+  "userId": "user123",
+  "type": "flight",
+  "itemId": "FL001",
+  "bookingDate": "2025-10-12T10:30:00",
+  "travelDate": "2025-10-13T10:30:00",
+  "quantity": 2,
+  "originalPrice": 500.0,
+  "totalPrice": 500.0,
+  "status": "confirmed",
+  "cancellationReason": null,
+  "refundAmount": 0.0,
+  "refundStatus": null,
+  "cancellationDate": null
+}
+```
+
+### Status Values
+
+**Booking Status:**
+- `confirmed` - Active booking
+- `cancelled` - Cancelled booking
+- `completed` - Past booking
+
+**Refund Status:**
+- `pending` - Refund initiated
+- `processed` - Refund completed
+- `rejected` - Refund denied
+- `not-applicable` - No refund available
+
+---
+
+## 🧪 Testing the Cancellation Feature
+
+### Step 1: Access Dashboard
+```
+https://make-my-trip-clone-1-s4of.onrender.com/dashboard
+```
+
+### Step 2: View Sample Bookings
+The dashboard includes 3 sample bookings for testing:
+1. **Flight BK001** - Tomorrow's flight ($500) - Can be cancelled
+2. **Hotel BK002** - Next week's hotel ($200) - Can be cancelled
+3. **Flight BK003** - Already cancelled with refund
+
+### Step 3: Test Cancellation
+1. Click "Bookings" tab
+2. Click "Cancel Booking" on an active booking
+3. Select cancellation reason
+4. Click "Calculate Refund"
+5. Review refund amount
+6. Click "Confirm Cancellation"
+
+---
+
+## ✅ Recent Changes (v2.0)
+
+### Backend Architecture Improvements:
+1. ✅ **Separated Booking Model**: Removed inner class from Users model
+2. ✅ **Created BookingRepository**: Dedicated repository for booking operations
+3. ✅ **Updated BookingService**: New methods for booking management
+4. ✅ **Updated CancellationService**: Uses new Booking model
+5. ✅ **Updated Controllers**: All endpoints use new Booking model
+6. ✅ **Clean Data Structure**: Users now store only booking IDs
+
+### Frontend Improvements:
+1. ✅ **Fixed TypeScript Errors**: All compilation errors resolved
+2. ✅ **Added Sample Data**: Testing without backend dependency
+3. ✅ **Updated API Endpoints**: Match new backend structure
+4. ✅ **Local Fallbacks**: Graceful degradation when API unavailable
 
 ## 🎨 UI Components
 
@@ -188,7 +365,8 @@ A comprehensive travel booking platform with 6 advanced features including cance
 ## 🔧 Configuration
 
 ### MongoDB Collections
-- `users` - User accounts with embedded bookings
+- `users` - User accounts (stores booking IDs only)
+- `bookings` - **NEW: Separate collection for all bookings**
 - `reviews` - User reviews and ratings
 - `flight_status` - Real-time flight information
 - `seat_maps` - Flight seat configurations
@@ -197,7 +375,7 @@ A comprehensive travel booking platform with 6 advanced features including cance
 - `recommendations` - AI-generated suggestions
 - `user_preferences` - User behavior and preferences
 
-**Note:** Bookings are stored as embedded documents within the `users` collection to maintain data consistency and simplify queries.
+**Note:** Bookings are now stored in a separate `bookings` collection for better scalability and data management. Users collection stores only booking IDs for reference.
 
 ### Environment Variables
 ```bash
