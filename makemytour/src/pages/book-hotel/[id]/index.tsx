@@ -124,16 +124,22 @@ const BookHotelPage = () => {
         quantity,
         grandTotal
       );
+      
+      // Update user with new booking ID (not the full booking object)
       const updateuser = {
         ...user,
-        bookings: [...user.bookings, data],
+        bookingIds: [...(user.bookingIds || []), data.bookingId],
       };
       dispatch(setUser(updateuser));
       setopen(false);
       setQuantity(1);
-      router.push("/profile");
+      
+      // Show success message
+      alert(`Hotel booked successfully! Booking ID: ${data.bookingId}`);
+      router.push("/dashboard");
     } catch (error) {
       console.log(error);
+      alert("Booking failed. Please try again.");
     }
   };
   const HotelContent = () => (
