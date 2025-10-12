@@ -122,7 +122,7 @@ const Dashboard: React.FC = () => {
 
         <div className="flex gap-2 flex-wrap">
           {booking.status === 'confirmed' && (
-            <CancellationDialog booking={booking} onCancel={handleCancellation} />
+            <CancellationDialog booking={booking} onCancel={handleCancellation} userId={currentUserId} />
           )}
 
           <Button variant="outline" size="sm" onClick={() => setActiveTab('pricing')}>

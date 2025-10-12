@@ -11,9 +11,10 @@ import { API_BASE_URL } from '../../config/api';
 interface CancellationDialogProps {
   booking: any;
   onCancel: (bookingId: string) => void;
+  userId?: string;
 }
 
-const CancellationDialog: React.FC<CancellationDialogProps> = ({ booking, onCancel }) => {
+const CancellationDialog: React.FC<CancellationDialogProps> = ({ booking, onCancel, userId }) => {
   const [reason, setReason] = useState('');
   const [customReason, setCustomReason] = useState('');
   const [refundAmount, setRefundAmount] = useState<number | null>(null);
@@ -54,7 +55,7 @@ const CancellationDialog: React.FC<CancellationDialogProps> = ({ booking, onCanc
       // Try API call, fallback to local calculation
       try {
         const response = await axios.post(`${API_BASE_URL}/cancellation/calculate-refund`, {
-          userId: 'user123',
+          userId: userId || booking.userId,
           bookingId: booking.bookingId,
           reason: reason === 'other' ? customReason : reason
         });
@@ -77,7 +78,7 @@ const CancellationDialog: React.FC<CancellationDialogProps> = ({ booking, onCanc
       // Try API call, fallback to local update
       try {
         await axios.post(`${API_BASE_URL}/cancellation/cancel`, {
-          userId: 'user123',
+          userId: userId || booking.userId,
           bookingId: booking.bookingId,
           reason: reason === 'other' ? customReason : reason
         });
