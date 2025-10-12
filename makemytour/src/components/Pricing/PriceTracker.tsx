@@ -182,7 +182,7 @@ const PriceTracker: React.FC<PriceTrackerProps> = ({ itemId, itemType, travelDat
                 <DialogHeader>
                   <DialogTitle>Price History</DialogTitle>
                 </DialogHeader>
-                {priceHistory && priceHistory.pricePoints.length > 0 && (
+                {priceHistory && priceHistory.pricePoints && priceHistory.pricePoints.length > 0 ? (
                   <div className="space-y-4">
                     <SimpleLineChart 
                       data={formatChartData(priceHistory.pricePoints)}
@@ -209,6 +209,12 @@ const PriceTracker: React.FC<PriceTrackerProps> = ({ itemId, itemType, travelDat
                         </span>
                       </div>
                     </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <TrendingUp className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-600">No price history available yet</p>
+                    <p className="text-sm text-gray-500 mt-2">Price tracking data will appear here once available</p>
                   </div>
                 )}
               </DialogContent>

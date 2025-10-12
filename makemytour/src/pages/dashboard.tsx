@@ -270,15 +270,27 @@ const Dashboard: React.FC = () => {
                   <CardTitle>Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <Button className="w-full justify-start" variant="outline">
+                  <Button 
+                    className="w-full justify-start" 
+                    variant="outline"
+                    onClick={() => setActiveTab('flight-status')}
+                  >
                     <Plane className="h-4 w-4 mr-2" />
                     Check Flight Status
                   </Button>
-                  <Button className="w-full justify-start" variant="outline">
+                  <Button 
+                    className="w-full justify-start" 
+                    variant="outline"
+                    onClick={() => setActiveTab('reviews')}
+                  >
                     <Star className="h-4 w-4 mr-2" />
                     Write a Review
                   </Button>
-                  <Button className="w-full justify-start" variant="outline">
+                  <Button 
+                    className="w-full justify-start" 
+                    variant="outline"
+                    onClick={() => setActiveTab('pricing')}
+                  >
                     <TrendingUp className="h-4 w-4 mr-2" />
                     Track Prices
                   </Button>
@@ -411,22 +423,30 @@ const Dashboard: React.FC = () => {
               <CardContent>
                 <div className="space-y-6">
                   <p className="text-gray-600">Track price changes for your bookings:</p>
-                  {userBookings
-                    .filter(b => (b.status || 'confirmed') === 'confirmed')
-                    .map((booking) => (
-                      <div key={booking.bookingId} className="border rounded-lg p-4">
-                        <div className="flex items-center gap-2 mb-4">
-                          {booking.type === 'flight' ? <Plane className="h-5 w-5" /> : <Hotel className="h-5 w-5" />}
-                          <span className="font-medium">{booking.type} - {booking.itemId}</span>
+                  {userBookings.filter(b => (b.status || 'confirmed') === 'confirmed' && b.itemId).length > 0 ? (
+                    userBookings
+                      .filter(b => (b.status || 'confirmed') === 'confirmed' && b.itemId)
+                      .map((booking) => (
+                        <div key={booking.bookingId} className="border rounded-lg p-4">
+                          <div className="flex items-center gap-2 mb-4">
+                            {booking.type === 'flight' ? <Plane className="h-5 w-5" /> : <Hotel className="h-5 w-5" />}
+                            <span className="font-medium">{booking.type} - {booking.itemId}</span>
+                          </div>
+                          <PriceTracker
+                            itemId={booking.itemId!}
+                            itemType={booking.type as 'flight' | 'hotel'}
+                            travelDate={booking.travelDate || new Date().toISOString()}
+                            userId={currentUserId}
+                          />
                         </div>
-                        <PriceTracker
-                          itemId={booking.itemId || booking.bookingId}
-                          itemType={booking.type as 'flight' | 'hotel'}
-                          travelDate={booking.travelDate || new Date().toISOString()}
-                          userId={currentUserId}
-                        />
-                      </div>
-                    ))}
+                      ))
+                  ) : (
+                    <div className="text-center py-8">
+                      <TrendingUp className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-600 mb-2">No bookings to track</h3>
+                      <p className="text-gray-500">Make a booking to start tracking prices!</p>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
