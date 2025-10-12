@@ -30,7 +30,7 @@ const index = () => {
     dispatch(clearUser());
     router.push("/");
   };
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState({
     firstName: user?.firstName ? user?.firstName : "",
@@ -57,8 +57,8 @@ const index = () => {
   };
 
   const [editForm, setEditForm] = useState({ ...userData });
-  
-  const handleSave = async (e:any) => {
+
+  const handleSave = async (e: any) => {
     e.preventDefault()
     try {
       const data = await editprofile(
@@ -83,11 +83,11 @@ const index = () => {
       year: "numeric",
     });
   };
-  const handleEditFormChange = (field:any, value:any) => {
+  const handleEditFormChange = (field: any, value: any) => {
     setUserData((prevState) => ({
-        ...prevState,
-        [field]: value, // Update the specific field dynamically
-      }));
+      ...prevState,
+      [field]: value, // Update the specific field dynamically
+    }));
   };
   return (
     <div className="min-h-screen bg-gray-50 pt-8 px-4">
@@ -141,7 +141,7 @@ const index = () => {
                       type="email"
                       value={userData.email}
                       onChange={(e) => handleEditFormChange("email", e.target.value)}
-                      
+
                       className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
@@ -240,11 +240,10 @@ const index = () => {
                           <p className="font-semibold">
                             ₹ {booking.totalPrice?.toLocaleString("en-IN") || 0}
                           </p>
-                          <p className={`text-sm ${
-                            booking.status === 'confirmed' ? 'text-green-600' : 
-                            booking.status === 'cancelled' ? 'text-red-600' : 
-                            'text-gray-500'
-                          }`}>
+                          <p className={`text-sm ${booking.status === 'confirmed' ? 'text-green-600' :
+                            booking.status === 'cancelled' ? 'text-red-600' :
+                              'text-gray-500'
+                            }`}>
                             {booking.status || 'Confirmed'}
                           </p>
                         </div>
