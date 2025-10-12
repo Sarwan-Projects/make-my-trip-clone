@@ -32,7 +32,7 @@ public class UserController
         Users users = userService.getUserByEmail(email);
         if(users != null)
         {
-            ResponseEntity.ok(users);
+            return ResponseEntity.ok(users);
         }
         return ResponseEntity.notFound().build();
     }

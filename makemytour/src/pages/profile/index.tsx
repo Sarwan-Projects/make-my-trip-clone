@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   User,
   Phone,
@@ -17,48 +17,44 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { clearUser, setUser } from "@/store";
 import { editprofile } from "@/api";
+import axios from "axios";
+import { API_BASE_URL } from "@/config/api";
+
 const index = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.user);
   const router = useRouter();
+  const [userBookings, setUserBookings] = useState<any[]>([]);
 
   const logout = () => {
     dispatch(clearUser());
     router.push("/");
   };
+  
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState({
     firstName: user?.firstName ? user?.firstName : "",
     lastName: user?.lastName ? user?.lastName : "",
     email: user?.email ? user?.email : "",
     phoneNumber: user?.phoneNumber ? user?.phoneNumber : "",
-    bookings: [
-      {
-        type: "Flight",
-        bookingId: "F123456",
-        date: "2024-03-25",
-        quantity: 2,
-        totalPrice: 12499,
-        details: {
-          from: "Delhi",
-          to: "Mumbai",
-          airline: "IndiGo",
-        },
-      },
-      {
-        type: "Hotel",
-        bookingId: "H789012",
-        date: "2024-04-15",
-        quantity: 1,
-        totalPrice: 8999,
-        details: {
-          name: "Taj Palace",
-          location: "Goa",
-          nights: 3,
-        },
-      },
-    ],
   });
+
+  // Fetch user bookings
+  useEffect(() => {
+    if (user?._id) {
+      fetchUserBookings();
+    }
+  }, [user?._id]);
+
+  const fetchUserBookings = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/booking/user/${user._id}`);
+      setUserBookings(response.data || []);
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+      setUserBookings([]);
+    }
+  };
 
   const [editForm, setEditForm] = useState({ ...userData });
   
@@ -216,52 +212,68 @@ const index = () => {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold mb-6">My Bookings</h2>
               <div className="space-y-6">
-                {user?.bookings?.map((booking: any, index: any) => (
-                  <div
-                    key={index}
-                    className="border rounded-lg p-4 hover:shadow-md transition-shadow"
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        {booking?.type === "Flight" ? (
-                          <div className="bg-blue-100 p-2 rounded-lg">
-                            <Plane className="w-6 h-6 text-blue-600" />
+                {userBookings.length > 0 ? (
+                  userBookings.map((booking: any, index: any) => (
+                    <div
+                      key={booking.bookingId || index}
+                      className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          {booking.type === "flight" ? (
+                            <div className="bg-blue-100 p-2 rounded-lg">
+                              <Plane className="w-6 h-6 text-blue-600" />
+                            </div>
+                          ) : (
+                            <div className="bg-green-100 p-2 rounded-lg">
+                              <Building2 className="w-6 h-6 text-green-600" />
+                            </div>
+                          )}
+                          <div>
+                            <h3 className="font-semibold capitalize">{booking.type} Booking</h3>
+                            <p className="text-sm text-gray-500">
+                              Booking ID: {booking.bookingId}
+                            </p>
                           </div>
-                        ) : (
-                          <div className="bg-green-100 p-2 rounded-lg">
-                            <Building2 className="w-6 h-6 text-green-600" />
-                          </div>
-                        )}
-                        <div>
-                          <h3 className="font-semibold">{booking?.type}</h3>
-                          <p className="text-sm text-gray-500">
-                            Booking ID: {booking?.bookingId}
+                        </div>
+                        <div className="text-right">
+                          <p className="font-semibold">
+                            ₹ {booking.totalPrice?.toLocaleString("en-IN") || 0}
+                          </p>
+                          <p className={`text-sm ${
+                            booking.status === 'confirmed' ? 'text-green-600' : 
+                            booking.status === 'cancelled' ? 'text-red-600' : 
+                            'text-gray-500'
+                          }`}>
+                            {booking.status || 'Confirmed'}
                           </p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="font-semibold">
-                          ₹ {booking?.totalPrice.toLocaleString("en-IN")}
-                        </p>
-                        <p className="text-sm text-gray-500">{booking?.type}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                        <div className="flex items-center space-x-1">
+                          <Calendar className="w-4 h-4" />
+                          <span>Booked: {formatDate(booking.date || booking.bookingDate)}</span>
+                        </div>
+                        {booking.travelDate && (
+                          <div className="flex items-center space-x-1">
+                            <MapPin className="w-4 h-4" />
+                            <span>Travel: {formatDate(booking.travelDate)}</span>
+                          </div>
+                        )}
+                        <div className="flex items-center space-x-1">
+                          <CreditCard className="w-4 h-4" />
+                          <span>Quantity: {booking.quantity || 1}</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-                      <div className="flex items-center space-x-1">
-                        <Calendar className="w-4 h-4" />
-                        <span>{formatDate(booking?.date)}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <MapPin className="w-4 h-4" />
-                        <span>{booking?.type}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <CreditCard className="w-4 h-4" />
-                        <span>Paid</span>
-                      </div>
-                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-12">
+                    <Plane className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-600 mb-2">No bookings yet</h3>
+                    <p className="text-gray-500">Start planning your next trip!</p>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>
