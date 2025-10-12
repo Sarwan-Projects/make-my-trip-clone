@@ -23,6 +23,9 @@ public class DataInitializationService implements CommandLineRunner {
     @Autowired
     private UserPreferenceRepository userPreferenceRepository;
     
+    @Autowired
+    private BookingRepository bookingRepository;
+    
     @Override
     public void run(String... args) throws Exception {
         initializeSampleData();
@@ -57,30 +60,36 @@ public class DataInitializationService implements CommandLineRunner {
         user.setRole("USER");
         user.setPhoneNumber("1234567890");
         
-        // Create sample bookings
-        Users.Booking flightBooking = new Users.Booking();
+        // Create sample bookings in separate collection
+        Booking flightBooking = new Booking();
         flightBooking.setBookingId("booking_flight_001");
+        flightBooking.setUserId("user123");
         flightBooking.setType("flight");
         flightBooking.setItemId("flight_ai101");
-        flightBooking.setDate(LocalDateTime.now().minusDays(5).toString());
-        flightBooking.setTravelDate(LocalDateTime.now().plusDays(10).toString());
+        flightBooking.setBookingDate(LocalDateTime.now().minusDays(5));
+        flightBooking.setTravelDate(LocalDateTime.now().plusDays(10));
         flightBooking.setQuantity(2);
         flightBooking.setOriginalPrice(500.0);
         flightBooking.setTotalPrice(450.0);
         flightBooking.setStatus("confirmed");
         
-        Users.Booking hotelBooking = new Users.Booking();
+        Booking hotelBooking = new Booking();
         hotelBooking.setBookingId("booking_hotel_001");
+        hotelBooking.setUserId("user123");
         hotelBooking.setType("hotel");
         hotelBooking.setItemId("hotel_taj_mumbai");
-        hotelBooking.setDate(LocalDateTime.now().minusDays(3).toString());
-        hotelBooking.setTravelDate(LocalDateTime.now().plusDays(12).toString());
+        hotelBooking.setBookingDate(LocalDateTime.now().minusDays(3));
+        hotelBooking.setTravelDate(LocalDateTime.now().plusDays(12));
         hotelBooking.setQuantity(1);
         hotelBooking.setOriginalPrice(300.0);
         hotelBooking.setTotalPrice(280.0);
         hotelBooking.setStatus("confirmed");
         
-        user.setBookings(Arrays.asList(flightBooking, hotelBooking));
+        // Save bookings to separate collection
+        bookingRepository.saveAll(Arrays.asList(flightBooking, hotelBooking));
+        
+        // Add booking IDs to user
+        user.setBookingIds(Arrays.asList("booking_flight_001", "booking_hotel_001"));
         userRepository.save(user);
     }
     

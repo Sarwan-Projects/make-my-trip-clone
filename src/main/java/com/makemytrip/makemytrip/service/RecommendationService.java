@@ -30,9 +30,12 @@ public class RecommendationService {
     @Autowired
     private ReviewRepository reviewRepository;
     
+    @Autowired
+    private BookingRepository bookingRepository;
+    
     public List<Recommendation> generateRecommendations(String userId) {
         UserPreference preferences = getUserPreferences(userId);
-        List<Users.Booking> userBookings = getUserBookings(userId);
+        List<Booking> userBookings = getUserBookings(userId);
         
         List<Recommendation> recommendations = new ArrayList<>();
         
@@ -70,12 +73,11 @@ public class RecommendationService {
         return userPreferenceRepository.save(preferences);
     }
     
-    private List<Users.Booking> getUserBookings(String userId) {
-        Optional<Users> userOpt = userRepository.findById(userId);
-        return userOpt.map(Users::getBookings).orElse(new ArrayList<>());
+    private List<Booking> getUserBookings(String userId) {
+        return bookingRepository.findByUserId(userId);
     }
     
-    private List<Recommendation> generateFlightRecommendations(String userId, UserPreference preferences, List<Users.Booking> userBookings) {
+    private List<Recommendation> generateFlightRecommendations(String userId, UserPreference preferences, List<Booking> userBookings) {
         List<Recommendation> recommendations = new ArrayList<>();
         List<Flight> allFlights = flightRepository.findAll();
         
@@ -108,7 +110,7 @@ public class RecommendationService {
         return recommendations;
     }
     
-    private List<Recommendation> generateHotelRecommendations(String userId, UserPreference preferences, List<Users.Booking> userBookings) {
+    private List<Recommendation> generateHotelRecommendations(String userId, UserPreference preferences, List<Booking> userBookings) {
         List<Recommendation> recommendations = new ArrayList<>();
         List<Hotel> allHotels = hotelRepository.findAll();
         
