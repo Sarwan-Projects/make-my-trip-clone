@@ -31,13 +31,13 @@ const Navbar = () => {
         <div className="flex items-center space-x-4">
           {user ? (
             <>
-              <Button variant="outline" onClick={() => router.push("/dashboard")}>
-                Dashboard
-              </Button>
-              
               {user.role === "ADMIN" && (
-                <Button variant="default" onClick={() => router.push("/admin")}>
-                  Admin Panel
+                <Button 
+                  variant="default" 
+                  onClick={() => router.push("/admin")}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
+                >
+                  ADMIN
                 </Button>
               )}
 
