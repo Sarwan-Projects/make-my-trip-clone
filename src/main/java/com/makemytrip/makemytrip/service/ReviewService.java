@@ -1,7 +1,7 @@
 package com.makemytrip.makemytrip.service;
 
 import com.makemytrip.makemytrip.models.Review;
-import com.makemytrip.makemytrip.models.Users;
+import com.makemytrip.makemytrip.repository.BookingRepository;
 import com.makemytrip.makemytrip.repository.ReviewRepository;
 import com.makemytrip.makemytrip.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +20,16 @@ public class ReviewService {
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private BookingRepository bookingRepository;
+    
     public Review createReview(Review review) {
-        // Check if user has actually booked this item
-        Optional<Users> userOpt = userRepository.findById(review.getUserId());
-        boolean hasBooking = false;
-        
-        if (userOpt.isPresent()) {
-            hasBooking = userOpt.get().getBookings().stream()
-                .anyMatch(booking -> booking.getItemId() != null && booking.getItemId().equals(review.getItemId()) 
-                    && booking.getType().equals(review.getItemType())
-                    && "confirmed".equals(booking.getStatus()));
-        }
+        // Check if user has actually booked this item using the new Booking model
+        List<com.makemytrip.makemytrip.models.Booking> userBookings = bookingRepository.findByUserId(review.getUserId());
+        boolean hasBooking = userBookings.stream()
+            .anyMatch(booking -> booking.getItemId() != null && booking.getItemId().equals(review.getItemId()) 
+                && booking.getType().equals(review.getItemType())
+                && "confirmed".equals(booking.getStatus()));
         
         review.setVerified(hasBooking);
         review.setReviewDate(LocalDateTime.now());
