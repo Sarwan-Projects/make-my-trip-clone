@@ -3,10 +3,8 @@ package com.makemytrip.makemytrip.controller;
 import com.makemytrip.makemytrip.models.Users.Booking;
 import com.makemytrip.makemytrip.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/booking")
@@ -25,5 +23,11 @@ public class BookingController
     public Booking bookFlight(@RequestParam String userId,@RequestParam String flightId,@RequestParam int seats,@RequestParam double price)
     {
         return bookingService.bookFlight(userId, flightId, seats, price);
+    }
+    
+    @GetMapping("/user/{userId}")
+    public List<Booking> getUserBookings(@PathVariable String userId)
+    {
+        return bookingService.getUserBookings(userId);
     }
 }

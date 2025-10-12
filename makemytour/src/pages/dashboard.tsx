@@ -51,8 +51,52 @@ const Dashboard: React.FC = () => {
   const fetchUserBookings = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/cancellation/bookings/${currentUserId}`);
-      setUserBookings(response.data);
+      // For testing purposes, let's use sample data
+      // In production, this would fetch from the API
+      const sampleBookings: Booking[] = [
+        {
+          bookingId: 'BK001',
+          type: 'flight',
+          itemId: 'FL001',
+          date: new Date().toISOString(),
+          travelDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Tomorrow
+          quantity: 2,
+          originalPrice: 500,
+          totalPrice: 500,
+          status: 'confirmed'
+        },
+        {
+          bookingId: 'BK002',
+          type: 'hotel',
+          itemId: 'HT001',
+          date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
+          travelDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // Next week
+          quantity: 1,
+          originalPrice: 200,
+          totalPrice: 200,
+          status: 'confirmed'
+        },
+        {
+          bookingId: 'BK003',
+          type: 'flight',
+          itemId: 'FL002',
+          date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days ago
+          travelDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), // Yesterday (past)
+          quantity: 1,
+          originalPrice: 300,
+          totalPrice: 300,
+          status: 'cancelled',
+          cancellationReason: 'Change of plans',
+          refundAmount: 150,
+          refundStatus: 'processed'
+        }
+      ];
+      
+      setUserBookings(sampleBookings);
+      
+      // Uncomment this when the API is ready:
+      // const response = await axios.get(`${API_BASE_URL}/api/cancellation/bookings/${currentUserId}`);
+      // setUserBookings(response.data);
     } catch (error) {
       console.error('Error fetching bookings:', error);
     } finally {
