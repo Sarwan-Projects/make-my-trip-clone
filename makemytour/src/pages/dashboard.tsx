@@ -9,13 +9,13 @@ import PriceTracker from '../components/Pricing/PriceTracker';
 import AIRecommendations from '../components/Recommendations/AIRecommendations';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { 
-  Calendar, 
-  CreditCard, 
-  Star, 
-  Plane, 
-  Hotel, 
-  TrendingUp, 
+import {
+  Calendar,
+  CreditCard,
+  Star,
+  Plane,
+  Hotel,
+  TrendingUp,
   Sparkles,
   User,
   Settings
@@ -91,12 +91,19 @@ const Dashboard: React.FC = () => {
           refundStatus: 'processed'
         }
       ];
-      
+
       setUserBookings(sampleBookings);
-      
-      // Uncomment this when the API is ready:
-      // const response = await axios.get(`${API_BASE_URL}/api/cancellation/bookings/${currentUserId}`);
-      // setUserBookings(response.data);
+
+      // Try to fetch from API, fallback to sample data if it fails
+      try {
+        const response = await axios.get(`${API_BASE_URL}/booking/user/${currentUserId}`);
+        if (response.data && response.data.length > 0) {
+          setUserBookings(response.data);
+          return;
+        }
+      } catch (apiError) {
+        console.log('API not available, using sample data:', apiError);
+      }
     } catch (error) {
       console.error('Error fetching bookings:', error);
     } finally {
@@ -105,9 +112,9 @@ const Dashboard: React.FC = () => {
   };
 
   const handleCancellation = (bookingId: string) => {
-    setUserBookings(prev => 
-      prev.map(booking => 
-        booking.bookingId === bookingId 
+    setUserBookings(prev =>
+      prev.map(booking =>
+        booking.bookingId === bookingId
           ? { ...booking, status: 'cancelled' }
           : booking
       )
@@ -159,27 +166,27 @@ const Dashboard: React.FC = () => {
             <p className="font-medium">${booking.totalPrice.toFixed(2)}</p>
           </div>
         </div>
-        
+
         <div className="flex gap-2">
           {booking.status === 'confirmed' && (
             <CancellationDialog booking={booking} onCancel={handleCancellation} />
           )}
-          
+
           <Button variant="outline" size="sm">
             View Details
           </Button>
-          
+
           {booking.status === 'confirmed' && (
             <Button variant="outline" size="sm">
               Write Review
             </Button>
           )}
         </div>
-        
+
         {booking.status === 'cancelled' && booking.refundAmount && (
           <div className="mt-3 p-3 bg-blue-50 rounded-lg">
             <p className="text-sm">
-              <strong>Refund:</strong> ${booking.refundAmount.toFixed(2)} - 
+              <strong>Refund:</strong> ${booking.refundAmount.toFixed(2)} -
               <span className={`ml-1 ${booking.refundStatus === 'processed' ? 'text-green-600' : 'text-yellow-600'}`}>
                 {booking.refundStatus}
               </span>
@@ -246,7 +253,7 @@ const Dashboard: React.FC = () => {
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -261,7 +268,7 @@ const Dashboard: React.FC = () => {
                   <p className="text-sm text-gray-600">This year</p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -275,7 +282,7 @@ const Dashboard: React.FC = () => {
                 </CardContent>
               </Card>
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
@@ -298,7 +305,7 @@ const Dashboard: React.FC = () => {
                   ))}
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader>
                   <CardTitle>Quick Actions</CardTitle>
@@ -354,7 +361,7 @@ const Dashboard: React.FC = () => {
                 <CardTitle>Flight Status Tracker</CardTitle>
               </CardHeader>
               <CardContent>
-                <FlightStatusTracker 
+                <FlightStatusTracker
                   userFlights={userBookings
                     .filter(b => b.type === 'flight' && (b.status || 'confirmed') === 'confirmed' && b.itemId)
                     .map(b => b.itemId!)
@@ -383,7 +390,7 @@ const Dashboard: React.FC = () => {
                           </div>
                           <Button size="sm">Write Review</Button>
                         </div>
-                        <ReviewSystem 
+                        <ReviewSystem
                           itemId={booking.itemId || booking.bookingId}
                           itemType={booking.type as 'flight' | 'hotel'}
                           currentUserId={currentUserId}
@@ -403,7 +410,7 @@ const Dashboard: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   {userBookings.filter(b => b.type === 'flight' && (b.status || 'confirmed') === 'confirmed' && b.itemId).length > 0 ? (
-                    <SeatMap 
+                    <SeatMap
                       flightId={userBookings.find(b => b.type === 'flight' && (b.status || 'confirmed') === 'confirmed' && b.itemId)?.itemId || ''}
                       userId={currentUserId}
                     />
@@ -415,14 +422,14 @@ const Dashboard: React.FC = () => {
                   )}
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader>
                   <CardTitle>Hotel Room Selection</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {userBookings.filter(b => b.type === 'hotel' && (b.status || 'confirmed') === 'confirmed' && b.itemId).length > 0 ? (
-                    <RoomSelector 
+                    <RoomSelector
                       hotelId={userBookings.find(b => b.type === 'hotel' && (b.status || 'confirmed') === 'confirmed' && b.itemId)?.itemId || ''}
                       userId={currentUserId}
                     />
@@ -453,7 +460,7 @@ const Dashboard: React.FC = () => {
                           {booking.type === 'flight' ? <Plane className="h-5 w-5" /> : <Hotel className="h-5 w-5" />}
                           <span className="font-medium">{booking.type} - {booking.itemId}</span>
                         </div>
-                        <PriceTracker 
+                        <PriceTracker
                           itemId={booking.itemId || booking.bookingId}
                           itemType={booking.type as 'flight' | 'hotel'}
                           travelDate={booking.travelDate || new Date().toISOString()}
@@ -472,7 +479,7 @@ const Dashboard: React.FC = () => {
                 <CardTitle>AI Recommendations</CardTitle>
               </CardHeader>
               <CardContent>
-                <AIRecommendations 
+                <AIRecommendations
                   userId={currentUserId}
                   onItemClick={(itemId, itemType) => {
                     console.log(`Clicked ${itemType}: ${itemId}`);
