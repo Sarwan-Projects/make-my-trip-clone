@@ -408,25 +408,6 @@ npm run build
 npm start
 ```
 
-## 🧪 Testing
-
-### Complete Project Test
-```bash
-./test-all.sh
-```
-
-### Individual Tests
-```bash
-# Backend only
-./test-backend.sh
-
-# Frontend only  
-./test-frontend.sh
-
-# API endpoints
-./test-api.sh
-```
-
 ## 📱 Mobile Responsiveness
 
 The application is fully responsive and works seamlessly on:
