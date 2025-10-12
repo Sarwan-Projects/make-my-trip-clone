@@ -293,7 +293,7 @@ const ReviewSystem: React.FC<ReviewSystemProps> = ({ itemId, itemType, currentUs
                 variant="ghost"
                 size="sm"
                 onClick={() => markHelpful(review.id)}
-                disabled={!currentUserId || review.helpfulUsers.includes(currentUserId)}
+                disabled={!currentUserId || (review.helpfulUsers && review.helpfulUsers.includes(currentUserId))}
                 className="flex items-center gap-2"
               >
                 <ThumbsUp className="h-4 w-4" />

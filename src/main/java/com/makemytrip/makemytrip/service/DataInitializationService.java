@@ -32,18 +32,14 @@ public class DataInitializationService implements CommandLineRunner {
     }
     
     private void initializeSampleData() {
-        // Create sample user with bookings
-        createSampleUserWithBookings();
+        // Only initialize flight statuses and preferences, no sample users or bookings
         
         // Create sample flight statuses
         if (flightStatusRepository.count() == 0) {
             createSampleFlightStatuses();
         }
         
-        // Create sample user preferences
-        if (userPreferenceRepository.count() == 0) {
-            createSampleUserPreferences();
-        }
+        // No sample user preferences - let users create their own
     }
     
     private void createSampleUserWithBookings() {

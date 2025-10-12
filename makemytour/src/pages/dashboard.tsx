@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import CancellationDialog from '../components/CancellationRefund/CancellationDialog';
 import ReviewSystem from '../components/Reviews/ReviewSystem';
@@ -42,7 +43,8 @@ const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [userBookings, setUserBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(false);
-  const [currentUserId] = useState('user123'); // In real app, get from auth context
+  const user = useSelector((state: any) => state.user.user);
+  const currentUserId = user?._id || '';
 
   useEffect(() => {
     fetchUserBookings();
@@ -51,61 +53,12 @@ const Dashboard: React.FC = () => {
   const fetchUserBookings = async () => {
     setLoading(true);
     try {
-      // For testing purposes, let's use sample data
-      // In production, this would fetch from the API
-      const sampleBookings: Booking[] = [
-        {
-          bookingId: 'BK001',
-          type: 'flight',
-          itemId: 'FL001',
-          date: new Date().toISOString(),
-          travelDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Tomorrow
-          quantity: 2,
-          originalPrice: 500,
-          totalPrice: 500,
-          status: 'confirmed'
-        },
-        {
-          bookingId: 'BK002',
-          type: 'hotel',
-          itemId: 'HT001',
-          date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
-          travelDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // Next week
-          quantity: 1,
-          originalPrice: 200,
-          totalPrice: 200,
-          status: 'confirmed'
-        },
-        {
-          bookingId: 'BK003',
-          type: 'flight',
-          itemId: 'FL002',
-          date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days ago
-          travelDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), // Yesterday (past)
-          quantity: 1,
-          originalPrice: 300,
-          totalPrice: 300,
-          status: 'cancelled',
-          cancellationReason: 'Change of plans',
-          refundAmount: 150,
-          refundStatus: 'processed'
-        }
-      ];
-
-      setUserBookings(sampleBookings);
-
-      // Try to fetch from API, fallback to sample data if it fails
-      try {
-        const response = await axios.get(`${API_BASE_URL}/booking/user/${currentUserId}`);
-        if (response.data && response.data.length > 0) {
-          setUserBookings(response.data);
-          return;
-        }
-      } catch (apiError) {
-        console.log('API not available, using sample data:', apiError);
-      }
+      // Fetch real bookings from API - no sample data
+      const response = await axios.get(`${API_BASE_URL}/booking/user/${currentUserId}`);
+      setUserBookings(response.data || []);
     } catch (error) {
       console.error('Error fetching bookings:', error);
+      setUserBookings([]);
     } finally {
       setLoading(false);
     }
@@ -167,17 +120,23 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           {booking.status === 'confirmed' && (
             <CancellationDialog booking={booking} onCancel={handleCancellation} />
           )}
 
-          <Button variant="outline" size="sm">
-            View Details
+          <Button variant="outline" size="sm" onClick={() => setActiveTab('pricing')}>
+            Track Price
           </Button>
 
+          {booking.type === 'flight' && (
+            <Button variant="outline" size="sm" onClick={() => setActiveTab('flight-status')}>
+              Flight Status
+            </Button>
+          )}
+
           {booking.status === 'confirmed' && (
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={() => setActiveTab('reviews')}>
               Write Review
             </Button>
           )}
