@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -450,6 +452,32 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("flights");
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [selectedHotel, setSelectedHotel] = useState(null);
+  const user = useSelector((state: any) => state.user.user);
+  const router = useRouter();
+
+  // Check if user is admin
+  useEffect(() => {
+    if (!user) {
+      router.push('/');
+      return;
+    }
+    if (user.role !== 'ADMIN') {
+      alert('Access denied. Admin privileges required.');
+      router.push('/');
+    }
+  }, [user, router]);
+
+  if (!user || user.role !== 'ADMIN') {
+    return (
+      <div className="container mx-auto p-4">
+        <div className="text-center py-20">
+          <h1 className="text-2xl font-bold mb-4">Access Denied</h1>
+          <p className="text-gray-600 mb-4">You need admin privileges to access this page.</p>
+          <Button onClick={() => router.push('/')}>Go to Home</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-4 bg-white max-w-full">

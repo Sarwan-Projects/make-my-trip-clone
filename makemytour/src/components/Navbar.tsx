@@ -13,7 +13,7 @@ import {
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { clearUser } from "@/store";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.user);
@@ -31,9 +31,13 @@ const Navbar = () => {
         <div className="flex items-center space-x-4">
           {user ? (
             <>
+              <Button variant="outline" onClick={() => router.push("/dashboard")}>
+                Dashboard
+              </Button>
+              
               {user.role === "ADMIN" && (
                 <Button variant="default" onClick={() => router.push("/admin")}>
-                  ADMIN
+                  Admin Panel
                 </Button>
               )}
 
