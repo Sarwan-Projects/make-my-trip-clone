@@ -74,17 +74,28 @@ public class RecommendationService {
     }
     
     private List<Booking> getUserBookings(String userId) {
-        return bookingRepository.findByUserId(userId);
+        try {
+            List<Booking> bookings = bookingRepository.findByUserId(userId);
+            return bookings != null ? bookings : new ArrayList<>();
+        } catch (Exception e) {
+            System.err.println("Error fetching bookings for user " + userId + ": " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
     
     private List<Recommendation> generateFlightRecommendations(String userId, UserPreference preferences, List<Booking> userBookings) {
         List<Recommendation> recommendations = new ArrayList<>();
-        List<Flight> allFlights = flightRepository.findAll();
-        
-        // Analyze user's booking patterns
-        Map<String, Long> destinationCounts = userBookings.stream()
-            .filter(b -> "flight".equals(b.getType()) && b.getItemId() != null)
-            .collect(Collectors.groupingBy(b -> getFlightDestination(b.getItemId()), Collectors.counting()));
+        try {
+            List<Flight> allFlights = flightRepository.findAll();
+            if (allFlights == null || allFlights.isEmpty()) {
+                System.out.println("No flights found in database");
+                return recommendations;
+            }
+            
+            // Analyze user's booking patterns
+            Map<String, Long> destinationCounts = userBookings.stream()
+                .filter(b -> "flight".equals(b.getType()) && b.getItemId() != null)
+                .collect(Collectors.groupingBy(b -> getFlightDestination(b.getItemId()), Collectors.counting()));
         
         for (Flight flight : allFlights) {
             if (preferences.getBlacklistedItems().contains(flight.get_id())) {
@@ -106,18 +117,28 @@ public class RecommendationService {
                 recommendations.add(rec);
             }
         }
-        
-        return recommendations;
+            
+            return recommendations;
+        } catch (Exception e) {
+            System.err.println("Error generating flight recommendations: " + e.getMessage());
+            e.printStackTrace();
+            return recommendations;
+        }
     }
     
     private List<Recommendation> generateHotelRecommendations(String userId, UserPreference preferences, List<Booking> userBookings) {
         List<Recommendation> recommendations = new ArrayList<>();
-        List<Hotel> allHotels = hotelRepository.findAll();
-        
-        // Analyze user's booking patterns
-        Map<String, Long> locationCounts = userBookings.stream()
-            .filter(b -> "hotel".equals(b.getType()) && b.getItemId() != null)
-            .collect(Collectors.groupingBy(b -> getHotelLocation(b.getItemId()), Collectors.counting()));
+        try {
+            List<Hotel> allHotels = hotelRepository.findAll();
+            if (allHotels == null || allHotels.isEmpty()) {
+                System.out.println("No hotels found in database");
+                return recommendations;
+            }
+            
+            // Analyze user's booking patterns
+            Map<String, Long> locationCounts = userBookings.stream()
+                .filter(b -> "hotel".equals(b.getType()) && b.getItemId() != null)
+                .collect(Collectors.groupingBy(b -> getHotelLocation(b.getItemId()), Collectors.counting()));
         
         for (Hotel hotel : allHotels) {
             if (preferences.getBlacklistedItems().contains(hotel.get_id())) {
@@ -138,9 +159,14 @@ public class RecommendationService {
                 
                 recommendations.add(rec);
             }
+            }
+            
+            return recommendations;
+        } catch (Exception e) {
+            System.err.println("Error generating hotel recommendations: " + e.getMessage());
+            e.printStackTrace();
+            return recommendations;
         }
-        
-        return recommendations;
     }
     
     private double calculateFlightScore(Flight flight, UserPreference preferences, Map<String, Long> destinationCounts) {

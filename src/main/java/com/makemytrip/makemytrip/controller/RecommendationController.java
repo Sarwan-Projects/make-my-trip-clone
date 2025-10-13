@@ -20,10 +20,15 @@ public class RecommendationController {
     @GetMapping("/{userId}")
     public ResponseEntity<List<Recommendation>> getRecommendations(@PathVariable String userId) {
         try {
+            System.out.println("Fetching recommendations for user: " + userId);
             List<Recommendation> recommendations = recommendationService.generateRecommendations(userId);
+            System.out.println("Generated " + recommendations.size() + " recommendations");
             return ResponseEntity.ok(recommendations);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            System.err.println("Error generating recommendations: " + e.getMessage());
+            e.printStackTrace();
+            // Return empty list instead of error
+            return ResponseEntity.ok(List.of());
         }
     }
     
