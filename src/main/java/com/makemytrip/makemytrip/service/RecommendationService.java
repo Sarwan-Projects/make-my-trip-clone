@@ -55,8 +55,22 @@ public class RecommendationService {
     }
     
     private UserPreference getUserPreferences(String userId) {
-        return userPreferenceRepository.findByUserId(userId)
-            .orElse(createDefaultPreferences(userId));
+        try {
+            return userPreferenceRepository.findByUserId(userId)
+                .orElse(createDefaultPreferences(userId));
+        } catch (org.springframework.dao.IncorrectResultSizeDataAccessException e) {
+            // Multiple preferences found, delete duplicates and create new one
+            System.err.println("Found duplicate preferences for user " + userId + ", cleaning up...");
+            userPreferenceRepository.deleteAll(
+                userPreferenceRepository.findAll().stream()
+                    .filter(p -> userId.equals(p.getUserId()))
+                    .toList()
+            );
+            return createDefaultPreferences(userId);
+        } catch (Exception e) {
+            System.err.println("Error fetching preferences: " + e.getMessage());
+            return createDefaultPreferences(userId);
+        }
     }
     
     private UserPreference createDefaultPreferences(String userId) {
