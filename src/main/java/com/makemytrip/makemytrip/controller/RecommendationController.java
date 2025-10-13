@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/recommendations")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class RecommendationController {
     
     @Autowired
@@ -28,18 +28,13 @@ public class RecommendationController {
     }
     
     @PostMapping("/{recommendationId}/feedback")
-    public ResponseEntity<Map<String, String>> recordFeedback(
+    public ResponseEntity<Map<String, String>> provideFeedback(
             @PathVariable String recommendationId,
-            @RequestBody Map<String, String> request) {
+            @RequestBody Map<String, String> feedbackData) {
         try {
-            String feedback = request.get("feedback");
+            String feedback = feedbackData.get("feedback");
             recommendationService.recordRecommendationFeedback(recommendationId, feedback);
-            
-            return ResponseEntity.ok(Map.of(
-                "message", "Feedback recorded successfully",
-                "recommendationId", recommendationId,
-                "feedback", feedback
-            ));
+            return ResponseEntity.ok(Map.of("message", "Feedback recorded"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
