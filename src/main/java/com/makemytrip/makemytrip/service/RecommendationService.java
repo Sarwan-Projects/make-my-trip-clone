@@ -93,7 +93,7 @@ public class RecommendationService {
             
             double score = calculateFlightScore(flight, preferences, destinationCounts);
             
-            if (score > 0.5) { // Threshold for recommendations
+            if (score > 0.3) { // Lower threshold for more recommendations
                 Recommendation rec = new Recommendation();
                 rec.setUserId(userId);
                 rec.setItemId(flight.get_id());
@@ -126,7 +126,7 @@ public class RecommendationService {
             
             double score = calculateHotelScore(hotel, preferences, locationCounts);
             
-            if (score > 0.5) { // Threshold for recommendations
+            if (score > 0.3) { // Lower threshold for more recommendations
                 Recommendation rec = new Recommendation();
                 rec.setUserId(userId);
                 rec.setItemId(hotel.get_id());
